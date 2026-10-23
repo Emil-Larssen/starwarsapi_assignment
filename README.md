@@ -1,0 +1,1 @@
+To run, input "npm start" in the terminal.
