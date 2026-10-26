@@ -1,6 +1,5 @@
-const fs = require('node:fs/promises');
 const characters = require('../data/characters');
-const { replaceCharacter, createCharacter} = require('../domain/character');
+const { replaceCharacter, createCharacter, inputValidation} = require('../domain/character');
 let writeQueue = Promise.resolve();
 
 
@@ -12,14 +11,22 @@ function enqueueWrite(operation){
 
 function saveCharacter(name, role, planet) {
     return enqueueWrite(async () =>{
+        const status = inputValidation(name, role, planet);
+        if(status !== 'SUCCESS')
+            return status;
         characters.push(await createCharacter(name, role, planet));
+        return status
     });
 }
 
 function updateCharacter(id, name, role, planet) {
     return enqueueWrite(async () =>{
+        const status = inputValidation(name, role, planet);
+        if(status !== 'SUCCESS')
+            return status;
         const index = characters.findIndex(character => character.id === id);
         characters[index] = await replaceCharacter(id, name, role, planet);
+        return status
     });
 }
 function getAllCharacters() {
