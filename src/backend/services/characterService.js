@@ -40,6 +40,8 @@ function getCharacter(id) {
 function deleteCharacter(id) {
     return enqueueWrite(async () =>{
         const index = characters.findIndex(character => character.id === id);
+        if(index === -1)
+            return 'NOT_FOUND'
         characters.splice(index, 1);
     });
 }

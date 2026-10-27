@@ -57,3 +57,16 @@ Afterwards the application was tested and incorrect behaviour identified and cor
 This led specifically to separating the style into a CSS file.  
 Ensuring the frontend relied on the backend errors to display the correct error messages.  
 (The AI had invented new frontend validations).
+
+## AI code review findings acted upon:
+High Priority: Incorrect Character Deletion
+
+In characterService.js, the deleteCharacter() function uses findIndex() without checking whether a matching character exists.  
+If no character is found, findIndex() returns -1, causing characters.splice(-1, 1) to delete the last character in the array.  
+Although the API checks character existence through middleware, two concurrent DELETE requests targeting the same ID   
+could both pass this check. The second request could then accidentally delete an unrelated character.
+
+Solution:  
+An explicit check for index === -1 before executing splice().  
+If the character does not exist, the service returns 'NOT_FOUND' without modifying the array.  
+This ensures that the service protects data integrity independently of the API's existence-checking middleware.
