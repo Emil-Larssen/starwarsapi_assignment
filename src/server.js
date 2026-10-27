@@ -12,7 +12,19 @@ characterRepository.saveCharacter('Darth Vader', 'Sith', 'Tatooine');
 characterRepository.saveCharacter('Leia Organa', 'Rebel', 'Alderaan');
 characterRepository.saveCharacter('Han Solo', 'Smuggler', 'Corellia');
 
+// Method & URL logger
+app.use((req, res, next) => {
+    console.log(`${req.method} ${req.originalUrl}`);
+    next();
+});
+
 //api endpoints
-const routes = require('./api/routes');
+const router = require('./api/routes');
 app.use(express.json());
-app.use(routes);
+app.use(router);
+
+// Invalid paths
+router.use((req, res) => res.status(404).json({message: 'Not found'}));
+
+//Central handler for unexpected errors
+app.use(errorHanlder);
