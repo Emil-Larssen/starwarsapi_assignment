@@ -1,0 +1,167 @@
+{
+  "info": {
+    "_postman_id": "3bf3256f-ddec-4bf5-bb79-a5e2380d9587",
+    "name": "Jedi Data Archives Collection",
+    "description": "### Welcome to Postman! This is your first collection. \n\nCollections are your starting point for building and testing APIs. You can use this one to:\n\n• Group related requests\n• Test your API in real-world scenarios\n• Document and share your requests\n\nUpdate the name and overview whenever you’re ready to make it yours.\n\n[Learn more about Postman Collections.](https://learning.postman.com/docs/collections/collections-overview/)",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+    "_exporter_id": "58546159",
+    "_collection_link": "https://go.postman.co/collection/58546159-3bf3256f-ddec-4bf5-bb79-a5e2380d9587?source=collection_link"
+  },
+  "item": [
+    {
+      "name": "get all characters",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "const characters = pm.response.json();\npm.collectionVariables.set('characterId', characters[0].id);"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "GET",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:3000/characters",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "characters"
+          ]
+        },
+        "description": "This is a GET request and it is used to \"get\" data from an endpoint. There is no request body for a GET request, but you can use query parameters to help specify the resource you want data on (e.g., in this request, we have `id=1`).\n\nA successful GET response will have a `200 OK` status, and should include some kind of response body - for example, HTML web content or JSON data."
+      },
+      "response": []
+    },
+    {
+      "name": "get single character",
+      "request": {
+        "method": "GET",
+        "header": [],
+        "url": {
+          "raw": "http://localhost:3000/characters/{{characterId}}",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "characters",
+            "{{characterId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "create character",
+      "event": [
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.sendRequest('http://localhost:3000/characters', (err, response) => {\r\n    if (err) throw err;\r\n\r\n    const characters = response.json();\r\n    const newestCharacter = characters[characters.length - 1];\r\n\r\n    pm.collectionVariables.set('newCharacterId', newestCharacter.id);\r\n});"
+            ]
+          }
+        }
+      ],
+      "request": {
+        "method": "POST",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"John\",\r\n    \"role\": \"Rebel\",\r\n    \"planet\": \"derp\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "http://localhost:3000/characters",
+          "protocol": "http",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "characters"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "delete character",
+      "request": {
+        "method": "DELETE",
+        "header": [],
+        "url": {
+          "raw": "localhost:3000/characters/{{newCharacterId}}",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "characters",
+            "{{newCharacterId}}"
+          ]
+        }
+      },
+      "response": []
+    },
+    {
+      "name": "update first character",
+      "request": {
+        "method": "PUT",
+        "header": [],
+        "body": {
+          "mode": "raw",
+          "raw": "{\r\n    \"name\": \"yolo\",\r\n    \"role\": \"Smuggler\",\r\n    \"planet\": \"somePlanet\"\r\n}",
+          "options": {
+            "raw": {
+              "language": "json"
+            }
+          }
+        },
+        "url": {
+          "raw": "localhost:3000/characters/{{characterId}}",
+          "host": [
+            "localhost"
+          ],
+          "port": "3000",
+          "path": [
+            "characters",
+            "{{characterId}}"
+          ]
+        }
+      },
+      "response": []
+    }
+  ],
+  "variable": [
+    {
+      "key": "characterId",
+      "value": ""
+    },
+    {
+      "key": "newCharacterId",
+      "value": ""
+    }
+  ]
+}

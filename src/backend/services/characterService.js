@@ -44,5 +44,9 @@ function deleteCharacter(id) {
     });
 }
 
+function getCharacterByIndex(index) {
+    return characters[index];
+}
 
-module.exports = { saveCharacter, getAllCharacters, getCharacter, deleteCharacter ,updateCharacter };
+
+module.exports = { saveCharacter, getAllCharacters, getCharacter, deleteCharacter ,updateCharacter, getCharacterByIndex };
